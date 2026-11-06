@@ -161,3 +161,29 @@ void init_and_sort_list(ListNode* h) {
     }
     smaller->next = bigger_h->next;//遍历完成后，将两个链表合并
 }
+
+bool judging_parentheses(char s[]){
+    Stack *sta;
+    init_stack(sta);
+    for (size_t i = 0; s[i] != '\0'; i++)
+    {
+        if (s[i] == '(')//左括号则入栈
+        {
+            stack_push(sta,s[i]);
+        }
+        else //右括号
+        {
+            if (stack_empty(sta))//若栈空，则是不合法嵌套
+            {
+                return false;
+            }
+            else stack_pop(sta);//不空，退栈
+        }
+    }
+    if (stack_empty(sta)) return true;//遍历完成，若栈空则表示合法
+    else return false;
+}
+
+void all_paths_of_maze(int maze[],int start_x,int start_y, int end_x, int end_y){
+    
+}

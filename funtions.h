@@ -17,3 +17,5 @@ void output_queue(Queue *q);
 void reverse_pop_to_output_queue(Queue *q);
 //综合应用
 void init_and_sort_list(ListNode* h);
+bool judging_parentheses(char s[]);
+void all_paths_of_maze(int maze[],int start_x,int start_y, int end_x, int end_y);

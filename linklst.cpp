@@ -36,6 +36,14 @@ int stack_pop(Stack *s){
    else printf("Stack is empty");
 }
 
+bool stack_empty(Stack *s){
+    if (s->top->val == 0)
+    {
+        return true;
+    }
+    else return false;
+}
+
 void init_queue(Queue *q){
     q->h = new two_way_ListNode;
     q->end = q->h;
