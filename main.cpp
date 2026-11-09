@@ -16,7 +16,7 @@ void test_list(){
     int a;
     scanf("%d",&a);
     int loca = seek_list_num(h,a);//查找功能
-    printf("%d",loca);//输出结果
+    printf("The location is :%d\n",loca);//输出结果
 
     //任务（4）
     printf("please input the num you want to insert:");
@@ -29,9 +29,9 @@ void test_list(){
     printf("please input the num you want to delete:");
     scanf("%d",&a);
     delete_node_by_val(h,a);
-    outputList(h);
 
     //任务（6）
+    printf("The reversed list:\n");
     reverse__output(h);
 }
 
@@ -85,9 +85,9 @@ void test_applications(){
 }
 int main(){
     test_list();
-    test_stack();
+    /*test_stack();
     test_queue();
-    test_applications();
+    test_applications();*/
     system("pause");
     
 }

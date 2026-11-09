@@ -18,27 +18,27 @@ void outputList(ListNode *h){
     ListNode *p = h->next;
     if (!p)
     {
-        printf("List is empty");//当p为空时，表示链表为空
+        printf("List is empty\n");//当p为空时，表示链表为空
     }
     while (p) //当p不为空时循环
     {
         printf("%d ",p->val);
         p = p->next;
     }
-    
+    printf("\n");
 }
 
 int seek_list_num(ListNode *h, int num){
     ListNode *p = h->next;
     int location = 1;
-    if (!p) {printf("List is empty");return location;}//当链表为空则直接返回
+    if (!p) {printf("List is empty\n");return location;}//当链表为空则直接返回
     while (p)
     {
         if (p->val == num) return location;//找到指定数字，返回位置
         p = p->next;//若找不到，则p往后移动
         location++;
     }
-    if (!p) printf("Number not founded");//此时p为空表明已到链表末尾，找不到对应数字
+    if (!p) {printf("Number not founded\n");location = 1;}//此时p为空表明已到链表末尾，找不到对应数字
     return location;
 }
 
@@ -48,7 +48,7 @@ void insert_data(ListNode *h, int loca, int data){
     {
         if (!p && i != loca-2)//如果指定位置不合法，则退出
         {
-            printf("illegal location");
+            printf("illegal location\n");
             return;
         }
         p = p->next;//位置合法，p往后移动
@@ -61,14 +61,14 @@ void insert_data(ListNode *h, int loca, int data){
 
 void delete_node_by_val(ListNode *h,int val){
     ListNode *p = h->next, *pre = h;
-    if (!p) {printf("List is empty");return ;}//当链表为空则直接返回
+    if (!p) {printf("List is empty\n");return ;}//当链表为空则直接返回
     while (p)
     {
         if (p->val == val) {dropnode(pre,p);outputList(h);return;}//找到指定数字
         p = p->next;//若找不到，则p和pre往后移动
         pre = pre->next;
     }
-    if (!p) printf("Number not founded");//此时p为空表明已到链表末尾，找不到对应数字
+    if (!p) printf("Number not founded\n");//此时p为空表明已到链表末尾，找不到对应数字
 }
 
 void reverse__output(ListNode *h){
