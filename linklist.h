@@ -2,22 +2,22 @@
 #define Maxsize 1000
 
 //定义链表
-typedef struct 
+struct ListNode
 {
     int val = 0;
-    ListNode *next = nullptr;
-} ListNode;
+    struct ListNode *next = nullptr;
+} ;
 
 void createnode(ListNode* &h,int data);
 void dropnode(ListNode*pre,ListNode *p);//链表的基本操作
 
 //双向链表（用于实现栈和队列的链式储存结构）
-typedef struct 
+struct two_way_ListNode
 {
     int val = 0;
-    two_way_ListNode *pre = nullptr;
-    two_way_ListNode *next = nullptr;
-}two_way_ListNode;
+    struct two_way_ListNode *pre = nullptr;
+    struct two_way_ListNode *next = nullptr;
+};
 
 //定义栈
 typedef struct 
@@ -40,3 +40,21 @@ typedef struct
 void init_queue(Queue *q);
 void queue_push(Queue *q, int a);
 int queue_pop(Queue *q);
+
+typedef struct 
+{
+    int x;
+    int y;
+    int di;
+}Box;
+
+typedef struct 
+{
+    Box data[Maxsize];
+    int top = 0;
+}BoxSt, *BStptr;
+
+void BSt_push(BoxSt *p, Box a);
+void BSt_pop(BoxSt *p);
+bool BSt_empty(BoxSt *p);
+Box BSt_gettop(BoxSt *p);

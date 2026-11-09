@@ -1,5 +1,6 @@
 // 本文件用于声明为了实验报告内容要求的函数，每一个函数代表实验指导书中的一个任务
 #pragma once
+#define col 10 //迷宫的宽
 #include "linklist.h"
 //线性表的内容
 void init_insert_datas(ListNode *h);
@@ -18,4 +19,4 @@ void reverse_pop_to_output_queue(Queue *q);
 //综合应用
 void init_and_sort_list(ListNode* h);
 bool judging_parentheses(char s[]);
-void all_paths_of_maze(int maze[],int start_x,int start_y, int end_x, int end_y);
+void all_paths_of_maze(int maze[][col],int start_x,int start_y, int end_x, int end_y);

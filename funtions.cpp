@@ -64,7 +64,7 @@ void delete_node_by_val(ListNode *h,int val){
     if (!p) {printf("List is empty");return ;}//当链表为空则直接返回
     while (p)
     {
-        if (p->val == val) dropnode(pre,p);//找到指定数字，返回位置
+        if (p->val == val) {dropnode(pre,p);outputList(h);return;}//找到指定数字
         p = p->next;//若找不到，则p和pre往后移动
         pre = pre->next;
     }
@@ -147,6 +147,8 @@ void init_and_sort_list(ListNode* h) {
     h->next = nullptr;
     while (p)//p不为空时，遍历原链表
     {
+        ListNode* nextTemp = p->next; 
+        p->next = nullptr;
         if (p->val < n)//p中的值小于输入值，将结点尾插到h头结点形成的链表
         {
             smaller->next = p;
@@ -157,33 +159,104 @@ void init_and_sort_list(ListNode* h) {
             q->next = p;
             q = q->next;
         }
-        p = p->next;
+        p = nextTemp;
     }
     smaller->next = bigger_h->next;//遍历完成后，将两个链表合并
+    delete bigger_h;
 }
 
 bool judging_parentheses(char s[]){
-    Stack *sta;
-    init_stack(sta);
+    Stack sta;
+    init_stack(&sta);
     for (size_t i = 0; s[i] != '\0'; i++)
     {
         if (s[i] == '(')//左括号则入栈
         {
-            stack_push(sta,s[i]);
+            stack_push(&sta,s[i]);
         }
         else //右括号
         {
-            if (stack_empty(sta))//若栈空，则是不合法嵌套
+            if (stack_empty(&sta))//若栈空，则是不合法嵌套
             {
+                delete sta.top;
                 return false;
             }
-            else stack_pop(sta);//不空，退栈
+            else stack_pop(&sta);//不空，退栈
         }
     }
-    if (stack_empty(sta)) return true;//遍历完成，若栈空则表示合法
-    else return false;
+    bool res = stack_empty(&sta);//遍历完成，若栈空则表示合法
+    delete sta.top; 
+    return res;
 }
 
-void all_paths_of_maze(int maze[],int start_x,int start_y, int end_x, int end_y){
+void all_paths_of_maze(int maze[][col],int start_x,int start_y, int end_x, int end_y){
+    BoxSt stack;
+    BStptr p = &stack;
+    Box e;
+    e.x = start_x;  e.y = start_y  ;  e.di = -1;
+    BSt_push(p,e);//将初始点位入栈
+    maze[start_x][start_y] = -1;
+    while (!BSt_empty(p))
+    {
+        e = BSt_gettop(p);//取栈顶元素
+        int x = e.x, y = e.y ,di = e.di;
+        if (x == end_x && y == end_y)//到终点则输出
+        {
+            printf("The path of maze is:");
+            for (int i = 0; i < p->top; i++)
+            {
+                printf("(%d,%d) ",p->data[i].x,p->data[i].y);
+                if ((i+1)%7 == 0)
+                {
+                    printf("\n");
+                }
+            }
+            printf("\n");//每条路径输出完换行，避免下一条路径接在同一行
+            BSt_pop(p);//终点回溯
+            maze[x][y] = 0;
+            continue;
+        }
+        bool found = false;
+        while (di < 3 && !found)//寻找周围可走的格子
+        {
+            di++;x = e.x; y = e.y;
+            bool is_move = true;
+            switch (di)
+            {
+            case 0://向上：行号x减1
+                if (x-1 >= 0) x--;
+                else is_move = false;
+                break;
+            case 1://向右：列号y加1
+                if (y+1 < col) y++;
+                else is_move = false;
+                break;
+            case 2://向下：行号x加1
+                if (x+1 < col) x++;
+                else is_move = false;
+                break;
+            case 3://向左：列号y减1
+                if (y-1 >= 0) y--;
+                else is_move = false;
+                break;
+            default:
+                break;
+            }
+            found = is_move && (maze[x][y] == 0);
+        }
+        if (found)//找到格子
+        {
+            p->data[p->top-1].di = di;//栈顶的方向置为di
+            e.x = x;
+            e.y = y;
+            e.di = -1;//设置新的入栈元素
+            BSt_push(p,e);//入栈
+            maze[x][y] = -1;
+        }
+        else {//没找到则回溯
+            BSt_pop(p);//退栈
+            maze[e.x][e.y] = 0;
+        }
+    }
     
 }
