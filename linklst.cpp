@@ -73,15 +73,35 @@ int queue_pop(Queue *q){
 }
 
 void BSt_push(BoxSt *p, Box a){
-    p->data[p->top] = a;//top为元素个数，新元素放在下标top处
+    p->data[p->top] = a;
     p->top ++;
 }
+
 void BSt_pop(BoxSt *p){
     p->top --;
 }
+
 bool BSt_empty(BoxSt *p){
     return p->top == 0;
 }
+
 Box BSt_gettop(BoxSt *p){
-    return p->data[p->top-1];//栈顶元素下标为top-1
+    return p->data[p->top-1];
+}
+
+
+void bque_push(bqueptr p,Box a){
+    p->data[p->r] = a;
+    p->r ++;
+}
+
+Box bque_pop(bqueptr p){
+    Box res = p->data[p->f];
+    p->f ++;
+    return res;
+}
+
+bool bque_empty(bqueptr p){
+    bool res = p->f == p->r;
+    return res;
 }

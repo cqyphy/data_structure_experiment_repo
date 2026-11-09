@@ -20,3 +20,4 @@ void reverse_pop_to_output_queue(Queue *q);
 void init_and_sort_list(ListNode* h);
 bool judging_parentheses(char s[]);
 void all_paths_of_maze(int maze[][col],int start_x,int start_y, int end_x, int end_y);
+void shortest_path_of_maze(int maze[][col],int start_x,int start_y, int end_x, int end_y);

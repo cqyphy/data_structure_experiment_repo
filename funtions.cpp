@@ -189,7 +189,7 @@ bool judging_parentheses(char s[]){
     return res;
 }
 
-void all_paths_of_maze(int maze[][col],int start_x,int start_y, int end_x, int end_y){
+void all_paths_of_maze(int maze[][col],int start_x,int start_y, int end_x, int end_y){//用栈搜索迷宫的所有路径
     BoxSt stack;
     BStptr p = &stack;
     Box e;
@@ -211,7 +211,7 @@ void all_paths_of_maze(int maze[][col],int start_x,int start_y, int end_x, int e
                     printf("\n");
                 }
             }
-            printf("\n");//每条路径输出完换行，避免下一条路径接在同一行
+            printf("\n\n");//每条路径输出完换行，避免下一条路径接在同一行
             BSt_pop(p);//终点回溯
             maze[x][y] = 0;
             continue;
@@ -257,6 +257,64 @@ void all_paths_of_maze(int maze[][col],int start_x,int start_y, int end_x, int e
             BSt_pop(p);//退栈
             maze[e.x][e.y] = 0;
         }
+    }
+}
+
+void shortest_path_of_maze(int maze[][col],int start_x,int start_y, int end_x, int end_y){//用队列搜索迷宫最短路径
+    Box e;
+    e.x = start_x;e.y = start_y;e.di = -1;
+    bque que; bqueptr p = &que;
+    bque_push(p,e);//将起点入队列
+    maze[start_x][start_y] = -1;
+    while (!bque_empty(p))
+    {
+        e = bque_pop(p);//出队一个方块
+        int x = e.x, y = e.y ,di = e.di;
+        if (x == end_x && y == end_y)//如果是终点，则输出
+        {
+            Box path[100];//数组用来储存路径
+            path[0] = e;//先将终点存进数组
+            int i = 1;
+            while (di != -1)
+            {
+                Box tmp;//临时变量
+                tmp.x = p->data[di].x; tmp.y = p->data[di].y;
+                path[i] = tmp;//将路径的一格存进数组
+                di = p->data[di].di;
+                i++;//更新di和i
+            }
+            printf("The shortest path of maze:\n");
+            int count = 0;
+            for (int j = i-1; j > -1; j--)//遍历path并输出
+            {
+                printf("(%d,%d) ",path[j].x,path[j].y);
+                if ((count+1) % 7 == 0) printf("\n");
+                count++;
+            }
+            printf("\n\n");
+        }
+        for (int i = 0; i < 4; i++)//不是，则找这个方块周围可走的路
+        {
+            x = e.x, y = e.y;
+            switch (i)
+            {
+            case 0: y--; break;
+            case 1: x++; break;
+            case 2: y++; break;
+            case 3: x--; break;
+            default:
+                break;
+            }
+            if (x >= 0 && y >= 0 && x < 10 && y < 10 && maze[x][y] == 0)//找到可走的下一个格子
+            {
+                Box tmp;
+                tmp.x = x; tmp.y = y; tmp.di = p->f-1;//新建方块并赋值
+                bque_push(p,tmp);//入队列
+                maze[x][y] = -1;
+            }
+            
+        }
+        
     }
     
 }

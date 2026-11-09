@@ -10,7 +10,8 @@ int main(){
         {1,0,1,0,0,0,1,0,0,1},{1,0,1,1,1,0,1,1,0,1},
         {1,1,0,0,0,0,0,0,0,1},{1,1,1,1,1,1,1,1,1,1}
     };
-    all_paths_of_maze(maze,1,1,8,8);
+    //all_paths_of_maze(maze,1,1,8,8);
+    shortest_path_of_maze(maze,1,1,8,8);
     system("pause");
     /*ListNode *h;
     createnode(h,0);

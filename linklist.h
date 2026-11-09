@@ -46,15 +46,25 @@ typedef struct
     int x;
     int y;
     int di;
-}Box;
+}Box;//定义Box数据类型
 
 typedef struct 
 {
     Box data[Maxsize];
     int top = 0;
-}BoxSt, *BStptr;
-
+}BoxSt, *BStptr;//定义栈和栈指针
+//栈基本操作
 void BSt_push(BoxSt *p, Box a);
 void BSt_pop(BoxSt *p);
 bool BSt_empty(BoxSt *p);
 Box BSt_gettop(BoxSt *p);
+
+typedef struct 
+{
+    Box data[Maxsize];
+    int f = 0,r = 0;
+}bque, *bqueptr;
+
+void bque_push(bqueptr p,Box a);
+Box bque_pop(bqueptr p);
+bool bque_empty(bqueptr p);
