@@ -6,7 +6,7 @@ void init_insert_datas(ListNode *h){
     ListNode *p = h, *tmp = nullptr;
     for (int i = 0; i < 10; i++)
     {
-        int a = (rand()+100)%1000;//生成100~999的随机数
+        int a = rand() % 900 + 100;//生成100~999的随机数
         createnode(tmp,a);
         p->next = tmp;
         p = p->next;//尾插法
@@ -87,7 +87,7 @@ void reverse__output(ListNode *h){
 void insert_datas_to_stack(Stack *s){
     for (int i = 0; i < 10; i++)
     {
-        int a = (rand()+100)%1000;//生成100~999的随机数
+        int a = rand() % 900 + 100;//生成100~999的随机数
         stack_push(s,a);//存入栈
     }
 }
@@ -98,13 +98,13 @@ void output_stack(Stack *s){
         int data = stack_pop(s);
         printf("%d ",data);
     }
-    
+    printf("\n");
 }
 
 void insert_datas_to_queue(Queue *q){
     for (int i = 0; i < 10; i++)
     {
-        int a = (rand()+100)%1000;//生成100~999的随机数
+        int a = rand() % 900 + 100;//生成100~999的随机数
         queue_push(q,a);
     }
 }
@@ -116,7 +116,7 @@ void output_queue(Queue *q){
         printf("%d ",p->val);
         p = p->next;
     }
-    
+    printf("\n");
 }
 
 void reverse_pop_to_output_queue(Queue *q){
@@ -135,7 +135,7 @@ void reverse_pop_to_output_queue(Queue *q){
         int a = queue_pop(q);
         printf("%d ",a);
     }
-    
+    printf("\n");
 }
 
 void init_and_sort_list(ListNode* h) {
@@ -202,7 +202,7 @@ void all_paths_of_maze(int maze[][col],int start_x,int start_y, int end_x, int e
         int x = e.x, y = e.y ,di = e.di;
         if (x == end_x && y == end_y)//到终点则输出
         {
-            printf("The path of maze is:");
+            printf("The path of maze is:\n");
             for (int i = 0; i < p->top; i++)
             {
                 printf("(%d,%d) ",p->data[i].x,p->data[i].y);

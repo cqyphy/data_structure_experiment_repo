@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "MinGW-gcc",
+      "includePath": [
+        "${workspaceRoot}\\**"
+      ],
+      "defines": [
+        "_DEBUG"
+      ],
+      "compilerPath": "E:/mingw32/bin/g++.exe",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "windows-gcc-x86"
+    }
+  ]
+}

@@ -36,28 +36,31 @@ void test_list(){
 }
 
 void test_stack(){
-    Stack *s = nullptr;
-    init_stack(s);
+    Stack s ;
+    init_stack(&s);
 
     //任务（1）
-    insert_datas_to_stack(s);
+    insert_datas_to_stack(&s);
 
     //任务（2）
-    output_stack(s);
+    printf("The numbers in the stack is:\n");
+    output_stack(&s);
 }
 
 void test_queue(){
-    Queue *q = nullptr;
-    init_queue(q);
+    Queue q;
+    init_queue(&q);
 
     //任务（1）
-    insert_datas_to_queue(q);
+    insert_datas_to_queue(&q);
 
     //任务（2）
-    output_queue(q);
+    printf("The numbers in the queue is:\n");
+    output_queue(&q);
 
     //任务（3）
-    reverse_pop_to_output_queue(q);
+    printf("The reversed numbers in the stack is:\n");
+    reverse_pop_to_output_queue(&q);
 }
 
 void test_applications(){
@@ -84,10 +87,10 @@ void test_applications(){
     shortest_path_of_maze(maze,1,1,8,8);
 }
 int main(){
-    test_list();
-    /*test_stack();
-    test_queue();
-    test_applications();*/
+    //test_list();
+    //test_stack();
+    //test_queue();
+    test_applications();
     system("pause");
     
 }
