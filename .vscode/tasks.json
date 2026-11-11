@@ -4,18 +4,16 @@
         {
             "type": "cppbuild",
             "label": "build",
-            "command": "E:\\mingw32\\bin\\g++.exe",
+            "command": "C:\\Users\\Administrator\\Desktop\\mingw64\\bin\\g++.exe",//自己电脑：E:\\mingw32\\bin\\g++.exe
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
                 "-O0",
                 "-Wall",
                 "-Wextra",
-                "${workspaceFolder}\\main.cpp",
-                "${workspaceFolder}\\funtions.cpp",
-                "${workspaceFolder}\\linklst.cpp",
+                "${workspaceFolder}\\report2\\*.cpp",
                 "-o",
-                "${workspaceFolder}\\main.exe"
+                "${workspaceFolder}\\report2\\main.exe"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

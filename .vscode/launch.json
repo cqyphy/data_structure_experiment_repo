@@ -5,14 +5,14 @@
             "name": "Debug main.exe (gdb)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\main.exe",
+            "program": "${workspaceFolder}\\report2\\main.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": true,
             "MIMode": "gdb",
-            "miDebuggerPath": "E:\\mingw32\\bin\\gdb.exe",
+            "miDebuggerPath": "C:\\Users\\Administrator\\Desktop\\mingw64\\bin\\gdb.exe",//自己电脑地址：E:\\mingw32\\bin\\gdb.exe
             "setupCommands": [
                 {
                     "description": "启用整齐打印",

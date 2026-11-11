@@ -70,7 +70,7 @@ void test_applications(){
     outputList(h);//输出查看结果
 
     //任务（2）
-    char s[] = "()()(()))";
+    char s[] = "((())";
     printf("parentheses: %s\n",s);
     if (judging_parentheses(s)) printf("true\n");
     else printf("false\n");
