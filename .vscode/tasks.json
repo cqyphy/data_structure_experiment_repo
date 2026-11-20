@@ -4,7 +4,7 @@
         {
             "type": "cppbuild",
             "label": "build",
-            "command": "C:\\Users\\Administrator\\Desktop\\mingw64\\bin\\g++.exe",//自己电脑：E:\\mingw32\\bin\\g++.exe
+            "command": "E:\\mingw32\\bin\\g++.exe",//自己电脑：学校电脑：C:\\Users\\Administrator\\Desktop\\mingw64\\bin\\g++.exe
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",

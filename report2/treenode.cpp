@@ -134,6 +134,33 @@ void recursive_postOrder(pBTNode b){
 }
 
 void unrecursive_preOrder(const pBTNode b){
+    pBTNode root = b;
+    while (root)
+    {
+        if (root->lchild)//如果有左子树，开始行动
+        {//1.寻找左子树的最右侧节点
+            pBTNode mostright = root->lchild;
+            while (mostright->rchild && mostright->rchild != root)
+            {
+                mostright = mostright->rchild;
+            }
+            //2.建立索引或输出
+            if (mostright->rchild == root)//如果左子树的最右侧节点指向根，说明索引已建立，且左子树已完成遍历
+            {
+                mostright->rchild = nullptr;//断开索引
+                root = root->rchild;//向右移动
+            }
+            else {//如果没有指向根，说明第一次经过
+                printf("%c",root->val);//按照根左右顺序，访问根节点
+                mostright->rchild = root;
+                root = root->lchild;
+            }
+        }
+        else {
+            printf("%c",root->val);
+            root = root->rchild;
+        }
+    }
     
 }
 
