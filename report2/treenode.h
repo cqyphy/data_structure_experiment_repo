@@ -24,3 +24,18 @@ void recursive_postOrder(pBTNode b);
 void unrecursive_preOrder(const pBTNode b);
 void unrecursive_inOrder(const pBTNode b);
 void unrecursive_postOrder(const pBTNode b);
+
+//线索二叉树
+typedef struct node2
+{
+    char val;
+    int lflag = 0, rflag = 0;
+    struct node2 *lchild = nullptr;
+    struct node2 *rchild = nullptr;
+}TBTNode, *pTBTNode;
+
+void create_TBTNode(pTBTNode &b,char data);
+void create_TBT(pTBTNode &b,char *str);
+void Thread(pTBTNode &b);
+void create_thread(pTBTNode &b);
+void seek_pre_behind_node(pTBTNode b);

@@ -197,5 +197,140 @@ void unrecursive_inOrder(const pBTNode b){//使用时间复杂度不变但空间
 }
 
 void unrecursive_postOrder(const pBTNode b){
+    pBTNode nodes[MaxSize], p = b, r = nullptr;
+    int top = 0;
+    bool flag = true;
+    do
+    {
+        while (p)
+        {
+            nodes[top++] = p;//根节点入栈
+            p = p->lchild;//向左移动
+        }
+        flag = true;
+        r = nullptr;
+        while (top != 0 && flag)//当栈不空且p是栈顶节点时
+        {
+            p = nodes[top-1];//取栈顶节点
+            if (p->rchild == r)//如果右子树已经访问过，则直接输出根节点
+            {
+                top--; //退栈
+                printf("%c",p->val);
+                r = p;//标记已访问
+            }
+            else {//没有被访问过，则转到有子树，回到开头进行操作
+                p = p->rchild;
+                flag = false;
+            }
+        }
+        
+    } while (top > 0);
+    printf("\n");
+}
 
+void create_TBTNode(pTBTNode &b,char data){
+    b = new TBTNode;
+    b->val = data;
+}
+
+void create_TBT(pTBTNode &b,char *str){
+    pTBTNode nodes[MaxSize],p = nullptr;//用nodes和top来模拟栈
+    int top = 0, l_or_r = 0;//0代表左，1代表右
+    for (int i = 0; str[i] != '\0'; i++)
+    {
+        switch (str[i])
+        {
+        case '('://左括号则入栈
+            nodes[top++] = p;
+            l_or_r = 0;//表示入栈的是左孩子
+            break;
+        case ')':
+            top--;//右括号则出栈
+            break;
+        case ',':
+            l_or_r = 1;//逗号则表明当前根节点的左子树已创建完毕，转换为创建右子树
+            break;
+        default:
+            create_TBTNode(p,str[i]);
+            if (!b){
+                b = p;
+            }
+            else {
+                switch (l_or_r)//根据标识来划分该连到左子树还是右子树
+                {
+                case 0:
+                    nodes[top-1]->lchild = p;
+                    break;
+                case 1:
+                    nodes[top-1]->rchild = p;
+                    break;
+                default:
+                    break;
+                }
+            }
+            break;
+        }
+    }
+}
+
+pTBTNode pre;
+void Thread(pTBTNode &b){
+    if (!b) return;
+    Thread(b->lchild);//线索化左子树
+    if (b->lchild == nullptr)
+    {
+        b->lchild = pre;//左子树为空，说明已经到达树的最左端，需要连接上前驱节点
+        b->lflag = 1;
+    }
+    if (pre->rchild == nullptr)
+    {
+        pre->rchild = b;//前驱节点的右子树为空，说明pre指向左子树的最右叶子节点，连接
+        pre->rflag = 1;
+    }
+    pre = b;//pre移动
+    Thread(b->rchild);
+}
+
+void create_thread(pTBTNode &b){
+    pTBTNode root = new TBTNode;
+    root->rchild = b;
+    root->lflag = 0;root->rflag = 1;
+    if (!b)//空树则直接返回空root
+    {
+        root->lchild = root;
+    }
+    else 
+    {
+        root->lchild = b;
+        pre = root;
+        Thread(b);//中序线索化二叉树
+        pre->rchild = root;//线索化完成，最右端叶子节点指向root
+        pre->rflag = 1;
+        root->rchild = pre;
+    }
+    b = root;
+}
+
+void seek_pre_behind_node(pTBTNode b){
+    pTBTNode p = b->lchild;
+    if (p == b) {printf("Tree is empty!!");return;}//空树
+    if (p->lflag == 1) printf("This root has no pre node");//根节点无左子树
+    else {//有左子树
+        p = p->lchild;//移动到左孩子
+        while (p->rflag == 0)//如果有右孩子，则移动到右孩子，直到到达最右
+        {
+            p = p->rchild;
+        }        
+        printf("The node in the front is:%c",p->val);
+    }
+    p = b->lchild->rchild;//回到根节点
+    if (p->rflag == 1) printf("This root has no node behind");//根节点无右子树
+    else{
+        p = p->rchild;//移动到右孩子
+        while (p->lflag == 0)//如果有左孩子，则移动到最左端
+        {
+            p = p->lchild;
+        }
+        printf("The node at the behind is:%c",p->val);
+    }
 }
