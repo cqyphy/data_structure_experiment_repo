@@ -323,7 +323,7 @@ void seek_pre_behind_node(pTBTNode b){
         }        
         printf("The node in the front is:%c",p->val);
     }
-    p = b->lchild->rchild;//回到根节点
+    p = b->lchild;//回到根节点
     if (p->rflag == 1) printf("This root has no node behind");//根节点无右子树
     else{
         p = p->rchild;//移动到右孩子
@@ -350,7 +350,7 @@ void count_weight(int ascII[],char *filename){
         printf("%s\n",str);//输出原文
         for (size_t i = 0; str[i] != '\0'; i++)
         {
-            ascII[str[i]]++;//按ASCII码统计
+            ascII[(unsigned char)str[i]]++;//按ASCII码统计
         }
     }
     fclose(f);
@@ -369,10 +369,10 @@ void create_HTree(HTNode ht[],int times[],int &n0){
         n0++;//记录ht数组的数量
     }
     printf("The sum of charaters is:%d\n",n0);//输出不同字符的个数
-    for (int i = n0; i < 2*n0-2; i++)//创建父节点
+    for (int i = n0; i < 2*n0-1; i++)//创建父节点
     {
         int lnode = -1, rnode = -1,min1 = 32767, min2 = 32767;
-        for (int j = 0; j < i-1; j++)//寻找权值最小的两个节点
+        for (int j = 0; j < i; j++)//寻找权值最小的两个节点
         {
             if (ht[j].parent != -1) continue;//跳过有父节点的叶子
             if (ht[j].weight < min1)//双“指针”寻找最小两节点
@@ -424,13 +424,14 @@ void create_Hcode(HTNode ht[],Hcode codes[], int n0){
 void compress(Hcode codes[],char *filename){
     printf("The compressed text:\n");
     FILE *res = fopen("compressed.txt","w"), *f = fopen(filename,"r");
-    char tmp = fgetc(f);//从原文中得到字符
-    while (tmp != '\0')
+    int tmp = fgetc(f);//从原文中得到字符
+    int count_ = 0;
+    while (tmp != EOF)
     {
-        for (int i = codes[tmp].start; i >= 0; i--)
+        for (int i = codes[tmp].start-1; i >= 0; i--)
         {
             fputc(codes[tmp].code[i],res);//根据字符映射，找到相应的哈夫曼编码，写入文件
-            printf("%c",codes[tmp].code[i]);//顺手输出//调试时无输出
+            printf("%d",codes[tmp].code[i]);//顺手输出
         }        
         tmp = fgetc(f);//找下一个字符
     }

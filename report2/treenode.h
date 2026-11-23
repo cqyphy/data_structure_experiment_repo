@@ -44,7 +44,7 @@ void seek_pre_behind_node(pTBTNode b);
 //哈夫曼树
 typedef struct 
 {
-    char data;
+    int data;
     int weight;
     int parent = -1;
     int lchild = -1;
