@@ -334,3 +334,106 @@ void seek_pre_behind_node(pTBTNode b){
         printf("The node at the behind is:%c",p->val);
     }
 }
+
+void count_weight(int ascII[],char *filename){
+    // printf("please input the absolute path and filename of the text:");
+    // scanf(" %[^\n]", filename);//获取文件绝对路径
+    char str[MaxSize];
+    FILE *f = fopen(filename,"r");//打开文件
+    if (!f)
+    {
+        printf("file not found");
+        return;
+    }
+    while (fgets(str,MaxSize,f))//读取文件中的字符串
+    {
+        printf("%s\n",str);//输出原文
+        for (size_t i = 0; str[i] != '\0'; i++)
+        {
+            ascII[str[i]]++;//按ASCII码统计
+        }
+    }
+    fclose(f);
+}
+
+void create_HTree(HTNode ht[],int times[],int &n0){
+    //int times[256] = {0};//ASCII码的数量，全部置为零
+    n0 = 0;
+    //count_weight(times);
+    int k = 0;
+    for (int i = 0; i < 256; i++)//用统计出的数据创建叶子节点
+    {
+        if (times[i] == 0) continue;//没有出现则跳过
+        ht[k].data = i;//因为直接用ASCII编址，所以data直接等于i
+        ht[k++].weight = times[i];//赋予权值
+        n0++;//记录ht数组的数量
+    }
+    printf("The sum of charaters is:%d\n",n0);//输出不同字符的个数
+    for (int i = n0; i < 2*n0-2; i++)//创建父节点
+    {
+        int lnode = -1, rnode = -1,min1 = 32767, min2 = 32767;
+        for (int j = 0; j < i-1; j++)//寻找权值最小的两个节点
+        {
+            if (ht[j].parent != -1) continue;//跳过有父节点的叶子
+            if (ht[j].weight < min1)//双“指针”寻找最小两节点
+            {
+                min2 = min1;
+                min1 = ht[j].weight;
+                rnode = lnode;
+                lnode = j;
+            }
+            else if (ht[j].weight < min2)
+            {
+                min2 = ht[j].weight;
+                rnode = j;
+            }
+            if (min1 == 1 && min2 == 1)break;
+        }
+        ht[lnode].parent = i;ht[rnode].parent = i;//寻找完毕，配置节点间关系
+        ht[i].weight = ht[lnode].weight + ht[rnode].weight;
+        ht[i].lchild = lnode; ht[i].rchild = rnode;
+    }
+    
+}
+
+void create_Hcode(HTNode ht[],Hcode codes[], int n0){
+    for (int i = 0; i < n0; i++)
+    {
+        int loca = ht[i].data,f = ht[i].parent,self = i;
+        Hcode tmp;
+        while (f != -1)//一直找直到根节点
+        {
+            if (self == ht[f].lchild)
+                tmp.code[tmp.start++] = 0;//是父节点的左孩子则编码为0
+            else 
+                tmp.code[tmp.start++] = 1;//反之则为1
+            self = f;
+            f = ht[f].parent;//双“指针”一起向父节点方向移动
+        }
+        printf("The frquency and huffman code of charater %c is: %d  ",loca,ht[i].weight);//按报告要求输出字符的哈夫曼编码
+        for (int j = tmp.start-1; j >=0; j--)//因为Hcode里的数组存放顺序是倒过来的，所以倒过来输出
+        {
+            printf("%d",tmp.code[j]);
+        }
+        printf("\n");
+        codes[loca] = tmp;//存入数组
+    }
+    
+}
+
+void compress(Hcode codes[],char *filename){
+    printf("The compressed text:\n");
+    FILE *res = fopen("compressed.txt","w"), *f = fopen(filename,"r");
+    char tmp = fgetc(f);//从原文中得到字符
+    while (tmp != '\0')
+    {
+        for (int i = codes[tmp].start; i >= 0; i--)
+        {
+            fputc(codes[tmp].code[i],res);//根据字符映射，找到相应的哈夫曼编码，写入文件
+            printf("%c",codes[tmp].code[i]);//顺手输出//调试时无输出
+        }        
+        tmp = fgetc(f);//找下一个字符
+    }
+    printf("\n");
+    fclose(f);fclose(res);
+}

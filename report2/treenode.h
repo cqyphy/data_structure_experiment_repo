@@ -1,4 +1,5 @@
 #pragma once
+#define MaxSize 1000
 
 typedef struct node
 {
@@ -39,3 +40,24 @@ void create_TBT(pTBTNode &b,char *str);
 void Thread(pTBTNode &b);
 void create_thread(pTBTNode &b);
 void seek_pre_behind_node(pTBTNode b);
+
+//哈夫曼树
+typedef struct 
+{
+    char data;
+    int weight;
+    int parent = -1;
+    int lchild = -1;
+    int rchild = -1;
+}HTNode;
+
+typedef struct 
+{
+    char code[MaxSize];
+    int start = 0;
+}Hcode;
+
+void count_weight(int ascII[],char *filename);
+void create_HTree(HTNode ht[],int times[],int &n0);
+void create_Hcode(HTNode ht[],Hcode codes[], int n0);
+void compress(Hcode codes[],char *filename);
