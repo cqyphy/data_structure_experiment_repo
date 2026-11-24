@@ -44,7 +44,7 @@ void seek_pre_behind_node(pTBTNode b);
 //哈夫曼树
 typedef struct 
 {
-    int data;
+    char data;
     int weight;
     int parent = -1;
     int lchild = -1;
@@ -61,3 +61,4 @@ void count_weight(int ascII[],char *filename);
 void create_HTree(HTNode ht[],int times[],int &n0);
 void create_Hcode(HTNode ht[],Hcode codes[], int n0);
 void compress(Hcode codes[],char *filename);
+void decompress(HTNode ht[],char *filename,int n0);

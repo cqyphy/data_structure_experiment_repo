@@ -399,7 +399,7 @@ void create_HTree(HTNode ht[],int times[],int &n0){
 void create_Hcode(HTNode ht[],Hcode codes[], int n0){
     for (int i = 0; i < n0; i++)
     {
-        int loca = ht[i].data,f = ht[i].parent,self = i;
+        int loca = (unsigned char)ht[i].data,f = ht[i].parent,self = i;
         Hcode tmp;
         while (f != -1)//一直找直到根节点
         {
@@ -423,9 +423,13 @@ void create_Hcode(HTNode ht[],Hcode codes[], int n0){
 
 void compress(Hcode codes[],char *filename){
     printf("The compressed text:\n");
-    FILE *res = fopen("compressed.txt","w"), *f = fopen(filename,"r");
+    FILE *res = fopen("compressed.txt","wb"), *f = fopen(filename,"r");
+    if (!f)
+    {
+        printf("file not found");
+        return;
+    }
     int tmp = fgetc(f);//从原文中得到字符
-    int count_ = 0;
     while (tmp != EOF)
     {
         for (int i = codes[tmp].start-1; i >= 0; i--)
@@ -434,6 +438,39 @@ void compress(Hcode codes[],char *filename){
             printf("%d",codes[tmp].code[i]);//顺手输出
         }        
         tmp = fgetc(f);//找下一个字符
+    }
+    printf("\n");
+    fclose(f);fclose(res);
+}
+
+void decompress(HTNode ht[],char *filename,int n0){
+    FILE *f = fopen(filename,"rb"),*res = fopen("origin.txt","w");
+    if (!f)
+    {
+        printf("file not found");
+        return;
+    }
+    int tmp = fgetc(f);
+    printf("The original text is:\n");
+    int root_index = 2*n0-2;
+    while (tmp != EOF)
+    {
+        switch (tmp)
+        {
+            case 0:
+            root_index = ht[root_index].lchild;
+            break;
+            default:
+            root_index = ht[root_index].rchild;
+            break;
+        }
+        if (ht[root_index].lchild == -1 && ht[root_index].rchild == -1)
+        {
+            fputc(ht[root_index].data,res);
+            printf("%c",ht[root_index].data);
+            root_index = 2*n0-2;
+        }
+        tmp = fgetc(f);
     }
     printf("\n");
     fclose(f);fclose(res);
